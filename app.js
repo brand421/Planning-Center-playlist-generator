@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const querystring = require("querystring");
@@ -7,7 +8,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const url = "https://api.planningcenteronline.com/api/v2/personal_access_tokens";
 
 const api = require(__dirname + "/apiTokens.js");
-const redirectUri = "http://localhost:3000";
+const redirectUri = "http://localhost:3000/planningcenterlogin";
 
 var stateKey = 'spotify_auth_state';
 
@@ -32,11 +33,12 @@ app.get("/Spotifylogin", function(req, res) {
     res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: api.spotifyId,
+      client_id: process.env.SPOTIFY_ID,
       scope: scope,
       redirect_uri: redirectUri,
       state: state
     }));
+    console.error;
 })
 
 app.listen(3000, function() {
